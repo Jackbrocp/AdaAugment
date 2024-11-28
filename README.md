@@ -1,6 +1,6 @@
 # AdaAugment
 
-The implementation of "AdaAugment: A Tuning-Free and Adaptive Approach to Enhance Data Augmentation".
+The official implementation of "AdaAugment: A Tuning-Free and Adaptive Approach to Enhance Data Augmentation".
 
 ## Requirements
 
@@ -21,11 +21,9 @@ For further information, please check [CIFAR home page].
 ## Training
 
 ```bash 
-python train.py --conf <config file path> --dataset CIFAR10 --dataset_path <dataset path> --cutout_length 16
+python train.py --conf <config file path> --dataset CIFAR10 --dataset_path <dataset path>
 # or
-python train.py --conf <config file path> --dataset CIFAR100 --dataset_path <dataset path> --cutout_length 8
+python train.py --conf <config file path> --dataset CIFAR100 --dataset_path <dataset path>
 ```
-
-For `CIFAR10`, parameter `cutout length` is set to **16**, and **8** for `CIFAR100`.
 
 You can also **add other parameters** according to your needs.
