@@ -1,12 +1,16 @@
 # AdaAugment
 
-The official implementation of "AdaAugment: A Tuning-Free and Adaptive Approach to Enhance Data Augmentation".
+This is the implementation of "AdaAugment: A Tuning-Free and Adaptive Approach to Enhance Data Augmentation". 
 
 ## Requirements
 
 * python >= 3.6
 * PyTorch >= 1.1.0
 * Torch vision >= 0.3.0
+
+## Updates
+
+* 2024/11/27: Initial release
 
 ## Datasets
 
@@ -18,7 +22,7 @@ The datasets can be directly downloaded at [CIFAR-10] and [CIFAR-100].
 
 For further information, please check [CIFAR home page].
 
-## Training
+## Training Examples
 
 ```bash 
 python train.py --conf <config file path> --dataset CIFAR10 --dataset_path <dataset path>
@@ -27,3 +31,19 @@ python train.py --conf <config file path> --dataset CIFAR100 --dataset_path <dat
 ```
 
 You can also **add other parameters** according to your needs.
+
+## Acknowledge
+
+Part of our implementation is adopted from the [TrivialAugment](https://github.com/automl/trivialaugment) repositories.
+
+## Citation
+If you find this repository useful in your research, please cite our paper:
+`
+@article{yang2024adaaugment,
+  title={AdaAugment: A Tuning-Free and Adaptive Approach to Enhance Data Augmentation},
+  author={Yang, Suorong and Li, Peijia and Xiong, Xin and Shen, Furao and Zhao, Jian},
+  journal={arXiv preprint arXiv:2405.11467},
+  year={2024}
+}
+`
+
