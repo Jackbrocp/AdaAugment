@@ -1,0 +1,20 @@
+model:
+  type: resnet110
+batch: 128
+epoch: 300
+lr: 0.1
+# lr_schedule:
+#   warmup: ''
+#   type: 'step'
+#   milestones: [60,120,160,200]
+#   gamma: 0.1
+lr_schedule:
+  type: 'cosine'
+  warmup:
+    multiplier: 1
+    epoch: 5
+optimizer:
+  type: sgd
+  nesterov: True
+  decay: 0.0002
+  ema: 0

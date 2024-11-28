@@ -1,0 +1,23 @@
+model:
+  type: pyramidnet-shake
+dataset: cifar10
+batch: 128
+epoch: 1800
+mask: 'trivial-augment'
+writer: False
+lr: 0.1
+lr_schedule:
+  type: 'cosine'
+  warmup: 
+    multiplier: 1
+    epoch: 5
+# lr_schedule:
+#   warmup: ''
+#   type: 'step'
+#   # milestones: [60,120,160]
+#   # gamma: 0.2
+optimizer:
+  type: sgd
+  nesterov: True
+  decay: 0.00005
+  ema: 0
