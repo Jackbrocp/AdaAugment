@@ -10,7 +10,7 @@ import torchvision.transforms as transforms
 from A2C import A2C
 from Network import *
 from config import get_arg
-from Dataset import Dataset_online, CIFAR100Dataset
+from Dataset import CIFAR10, CIFAR100
 from normalization import batch_Normalization
 
 from torch import optim
@@ -63,11 +63,11 @@ transform_test = transforms.Compose([
                 ])
 
 if args.dataset == 'CIFAR10':
-    trainset = Dataset_online(args.dataset_path, train=True, transform=transform, aug=args.aug)
-    testset = Dataset_online(args.dataset_path, train=False, transform=transform_test)
+    trainset = CIFAR10(args.dataset_path, train=True, transform=transform, aug=args.aug)
+    testset = CIFAR10(args.dataset_path, train=False, transform=transform_test)
 elif args.dataset == 'CIFAR100':
-    trainset = CIFAR100Dataset(args.dataset_path, train=True, fine_label=True, transform=transform, aug=args.aug)
-    testset = CIFAR100Dataset(args.dataset_path, train=False, fine_label=True, transform=transform_test)
+    trainset = CIFAR100(args.dataset_path, train=True, fine_label=True, transform=transform, aug=args.aug)
+    testset = CIFAR100(args.dataset_path, train=False, fine_label=True, transform=transform_test)
 
 train_loader=DataLoader(dataset=trainset, batch_size=cfg['batch'], shuffle=True, num_workers=8, pin_memory=True)
 test_loader=DataLoader(dataset=testset, batch_size=cfg['batch'], shuffle=False, num_workers=8, pin_memory=True)
@@ -115,8 +115,7 @@ if cfg['lr_schedule']['warmup'] != '' and cfg['lr_schedule']['warmup']['epoch'] 
 loss = nn.CrossEntropyLoss(reduction='none')
 balance_factor = 1.
 
-if args.use_reward_norm:
-    reward_norm = batch_Normalization()
+reward_norm = batch_Normalization()
 
 def train_first_epoch(net, agent):
     net.eval()
@@ -124,7 +123,7 @@ def train_first_epoch(net, agent):
         idx, inputs, labels = data
 
         inputs, labels = inputs.cuda(), labels.cuda()
-        outputs, feature = net(inputs, labels)
+        _, feature = net(inputs, labels)
         state = torch.squeeze(feature.detach())
         magnitude = agent.action(state)
         magnitude = magnitude.squeeze()
@@ -156,7 +155,7 @@ def train(net, agent, epoch):
         ada_outputs, ada_feature = net(ada_aug_inputs, labels)
         with torch.no_grad():
             none_outputs, none_feature = net(none_aug_inputs, labels)
-            full_outputs, full_feature = net(full_aug_inputs, labels)
+            full_outputs, _ = net(full_aug_inputs, labels)
         
         none_state = torch.squeeze(none_feature.detach())
         ada_state = torch.squeeze(ada_feature.detach())
@@ -166,7 +165,6 @@ def train(net, agent, epoch):
         full_loss = loss(full_outputs, labels)
 
         magnitude = agent.action(none_state)
-
         magnitude = magnitude.squeeze()
         trainset.set_MAGNITUDE(idx, magnitude.detach().cpu())
 
@@ -175,13 +173,13 @@ def train(net, agent, epoch):
 
         if args.use_reward_norm:
             reward = reward_norm(reward)
-        total_reward += reward
         
         optimizer.zero_grad()
         ada_loss = ada_loss.mean()
         ada_loss.backward()
         optimizer.step()
         agent.update(none_state, magnitude, ada_state, reward)
+        total_reward += reward.mean()
             
         training_loss += ada_loss.item()
         training_none_loss += none_loss.mean().item()
@@ -199,7 +197,7 @@ def train(net, agent, epoch):
             aver_reward = total_reward / (i + 1)
             print('Train Epoch: {} [{}/{} ({:.0f}%)]\t Training Loss: {:.3f} Acc: {:.2f} Mag: {:.2f}  Average Reward: {:.6f}'.format(epoch,
                 trained_total, total, progress, loss_mean, acc, magnitude_mean, aver_reward))
-    
+
 def test(net, epoch):
     global best_acc
     global best_epoch

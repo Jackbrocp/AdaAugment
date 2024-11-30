@@ -2,7 +2,6 @@ model:
   type: resnet50
 batch: 128
 epoch: 300
-writer: False
 lr: 0.1
 lr_schedule:
   type: 'cosine'

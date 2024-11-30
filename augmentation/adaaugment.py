@@ -345,8 +345,6 @@ cutout = TransformT('Cutout',
                     lambda img, l: CutoutDefault(img, int_parameter(l, img.size[0] * min_max_vals.cutout.max)))
 
 
-
-
 blend_images = None
 
 
@@ -633,45 +631,11 @@ def num_augmentations():
     return len(ALL_TRANSFORMS)
 
 
-class TrivialAugment:
-    def __call__(self, img):
-        op = random.choices(ALL_TRANSFORMS, k=1)[0]
-        level = random.randint(0, PARAMETER_MAX)
-        img = op.pil_transformer(1., level)(img)
-        return img
-
-
-class RandAugment:
-    def __init__(self, n, m):
-        self.n = n
-        self.m = m  # [0, 30]
-
-    def __call__(self, img):
-        ops = random.choices(ALL_TRANSFORMS, k=self.n)
-        for op in ops:
-            img = op.pil_transformer(1., self.m)(img)
-
-        return img
-
-
-class UniAugment:
-    def __call__(self, img):
-        ops = random.choices(ALL_TRANSFORMS, k=2)
-        for op in ops:
-            level = random.randint(0, PARAMETER_MAX)
-            img = op.pil_transformer(0.5, level)(img)
-        return img
-
-
-class UniAugmentWeighted:
-    def __init__(self, n, probs):
-        self.n = n
-        self.probs = probs  # [prob of zero augs, prob of one aug, ..]
-
-    def __call__(self, img):
-        k = random.choices(range(len(self.probs)), self.probs)[0]
-        ops = random.choices(ALL_TRANSFORMS, k=k)
-        for op in ops:
-            level = random.randint(0, PARAMETER_MAX)
-            img = op.pil_transformer(1., level)(img)
+class AdaAugment:
+    def __init__(self, M):
+        self.op = random.choices(ALL_TRANSFORMS, k=1)[0]
+        self.level = min(int(PARAMETER_MAX * M)+1, PARAMETER_MAX)
+        
+    def __call__(self, img) :
+        img = self.op.pil_transformer(1., self.level)(img)
         return img

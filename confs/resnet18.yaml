@@ -1,33 +1,8 @@
-# model:
-#   type: resnet18
-# batch: 128
-# epoch: 300
-# writer: False
-# lr: 0.1
-# lr_schedule:
-#   type: 'cosine'
-#   warmup: 
-#     multiplier: 1
-#     epoch: 5
-# optimizer:
-#   type: sgd
-#   nesterov: True
-#   decay: 0.0005
-#   ema: 0
-
 model:
   type: resnet18
-dataset: cifar10
 batch: 128
 epoch: 300
-mask: 'advmask'
-writer: False
 lr: 0.1
-# lr_schedule:
-#   warmup: ''
-#   type: 'step'
-#   milestones: [60, 120, 180, 240, 300, 360, 400]
-#   gamma: 0.2
 lr_schedule:
   type: 'cosine'
   warmup: 
