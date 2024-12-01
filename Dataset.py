@@ -7,7 +7,7 @@ from organize_transform import make_transform, make_magnitude_transform
 
 class CIFAR10(Dataset):
     base_folder = ''
-    preix = 'adv_'
+    preix = ''
     train_list=[[preix+'data_batch_1', 'c99cafc152244af753f735de768cd75f'],
                 [preix+'data_batch_2', 'd4bba439e000b95fd0a9bffe97cbabec'],
                 [preix+'data_batch_3', '54ebc095f3ab1f0389bbae665268c751'],
