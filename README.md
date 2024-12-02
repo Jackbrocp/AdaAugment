@@ -39,7 +39,7 @@ Part of our implementation is adopted from the [TrivialAugment](https://github.c
 ## Citation
 If you find this repository useful in your research, please cite our paper:
 
-`
+
 To be updated.
 <!-- @article{yang2024adaaugment,
   title={AdaAugment: A Tuning-Free and Adaptive Approach to Enhance Data Augmentation},
@@ -47,5 +47,5 @@ To be updated.
   journal={arXiv preprint arXiv:2405.11467},
   year={2024}
 } -->
-`
+
 
