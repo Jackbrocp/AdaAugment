@@ -30,7 +30,7 @@ python train.py --conf <config file path> --dataset CIFAR10 --dataset_path <data
 python train.py --conf <config file path> --dataset CIFAR100 --dataset_path <dataset path>
 ```
 
-You can also **add other parameters** according to your needs.
+Config files are in the folder ./confs/. You can also **add other parameters** according to your needs.
 
 ## Acknowledge
 
