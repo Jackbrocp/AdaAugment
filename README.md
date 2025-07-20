@@ -1,4 +1,4 @@
-# AdaAugment
+# [IEEE TIP 2025]🎉 AdaAugment
 
 This is the implementation of "AdaAugment: A Tuning-Free and Adaptive Approach to Enhance Data Augmentation". 
 
@@ -39,11 +39,11 @@ Part of our implementation is adopted from the [TrivialAugment](https://github.c
 ## Citation
 If you find this repository useful in your research, please cite our paper:
 
-`
+```
 @article{yang2024adaaugment,
   title={AdaAugment: A Tuning-Free and Adaptive Approach to Enhance Data Augmentation},
   author={Yang, Suorong and Li, Peijia and Xiong, Xin and Shen, Furao and Zhao, Jian},
   journal={arXiv preprint arXiv:2405.11467},
   year={2024}
-`
+```
 
